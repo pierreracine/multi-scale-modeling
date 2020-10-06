@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Sep  8 11:55:32 2020
-
 @author: Pierre
 """
 
@@ -140,6 +139,11 @@ for k in range(1,tf):
     if capacity(s,max_capacity)==True:
         list_capacity.append(k)
 
+list_tot=[]
+for k in range(tf):
+    tot=list_h[k]+list_si[k]+list_ai[k]+list_c[k]+list_s[k]+list_d[k]
+    list_tot.append(tot)
+    
 """Graphs"""
 
 time=list(range(tf))

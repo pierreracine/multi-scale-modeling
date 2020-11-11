@@ -18,15 +18,15 @@ from scipy import interpolate
 """Parameters list"""
 
 beta=0.46
-t=0.15/3
-x=0.85/3
+t=0.15/5
+x=0.85/5
 y=1/10
-z=0.92/10
-u=0.08/10
+z=0.92/7
+u=0.08/7
 v=0.7/10
 w=0.3/10
 
-tf=160     #number of days for the simulation
+tf=340     #number of days for the simulation
 
 max_capacity=3000
 
@@ -76,7 +76,7 @@ def behaviour(t,t_begining):
     if t<t_begining:
         return(1)
     else:
-        return(0.1)
+        return(0.3)
 
 #Function to determine if the limit of hospitalisation in intensive care is reached
         
@@ -94,7 +94,7 @@ ai=0
 si=0
 c=0
 s=0
-d=0
+d=1
 
 """List initialisation"""
 
@@ -121,10 +121,10 @@ for k in range(1,tf):
     s0=s
     d0=d
     
-    lock=lockdown(k,55,115)
-    behav=behaviour(k,85)
+    lock1=lockdown(k,32,87)
+    behav=behaviour(k,55)
     
-    l=L(h0,p0,ai0,si0,c0)
+    l=L(h0,p0,ai0,si0,c0)*lock1
     
     h=H(l,h0)
     list_h.append(h)
@@ -161,25 +161,25 @@ for k in range(tf):
 time=list(range(tf))
 
 graphe_h=interpolate.interp1d(time,list_h,kind="quadratic")
-plt.plot(time,graphe_h(time),label='H')
+plt.plot(time,graphe_h(time),label='S')
 graphe_p=interpolate.interp1d(time,list_p,kind="quadratic")
-plt.plot(time,graphe_p(time),label='P')
+plt.plot(time,graphe_p(time),label='IP')
 graphe_ai=interpolate.interp1d(time,list_ai,kind="quadratic")
-plt.plot(time,graphe_ai(time),label='AI')
+plt.plot(time,graphe_ai(time),label='IA')
 graphe_si=interpolate.interp1d(time,list_si,kind="quadratic")
-plt.plot(time,graphe_si(time),label='SI')
+plt.plot(time,graphe_si(time),label='IS')
 graphe_c=interpolate.interp1d(time,list_c,kind="quadratic")
-plt.plot(time,graphe_c(time),label='C')
+plt.plot(time,graphe_c(time),label='G')
 graphe_s=interpolate.interp1d(time,list_s,kind="quadratic")
-plt.plot(time,graphe_s(time),label='S')
+plt.plot(time,graphe_s(time),label='R')
 graphe_d=interpolate.interp1d(time,list_d,kind="quadratic")
-plt.plot(time,graphe_d(time),label='D')
+plt.plot(time,graphe_d(time),label='M')
 graphe_tot=interpolate.interp1d(time,list_tot,kind="quadratic")
-plt.plot(time,graphe_tot(time),label='Tot')
+#plt.plot(time,graphe_tot(time),label='Tot')
 
-plt.xlabel("Time(D)")
-plt.ylabel("Population (number of individuals)")
-plt.title("Evolution of each compartment")
+plt.xlabel("Temps(J)")
+plt.ylabel("Population (nombre d'individus)")
+plt.title("Evolution de chaque compartiments (340 J)")
 plt.legend()
 plt.savefig('populations.pdf')
 plt.show()
